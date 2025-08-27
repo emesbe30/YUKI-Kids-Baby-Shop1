@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Katalog Makanan Bayi</title>
+    <style>
+      :root {
+        --brand: #0f62fe;
+        --ink: #0f172a;
+        --muted: #64748b;
+        --bg1: #fff6f8;
+        --bg2: #eef6ff;
+        --card: #fff;
+        --ring: #ececec;
+        --price: #e91e63;
+        --btn1: #ff7a00;
+        --btn2: #ec1971;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        font-family: system-ui, Inter, Segoe UI, Roboto, Arial;
+        color: var(--ink);
+        background: linear-gradient(180deg, var(--bg2), var(--bg1)) fixed;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 24px 18px;
+      }
+      header {
+        text-align: center;
+        margin: 10px 0 8px;
+      }
+      h1 {
+        margin: 0 0 6px;
+      }
+      .crumbs {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      /* chips */
+      .subnav {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        background: #fff;
+        border-block: 1px solid var(--ring);
+        padding: 12px 0;
+        margin: 14px 0 18px;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+      }
+      .chip {
+        border: 1px solid var(--ring);
+        background: #fff;
+        padding: 0.6rem 0.9rem;
+        border-radius: 999px;
+        cursor: pointer;
+        font-weight: 700;
+        transition: 0.15s;
+      }
+      .chip:hover {
+        transform: translateY(-1px);
+      }
+      .chip.is-active {
+        border-color: var(--brand);
+        box-shadow: 0 6px 22px rgba(15, 98, 254, 0.14);
+      }
+
+      /* tools */
+      .tools {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 6px 0 18px;
+      }
+      .search {
+        min-width: 260px;
+        display: flex;
+        align-items: center;
+        border: 1px solid var(--ring);
+        border-radius: 12px;
+        background: #fff;
+      }
+      .search input {
+        border: none;
+        outline: none;
+        padding: 0.7rem 0.9rem;
+        border-radius: 12px;
+        flex: 1;
+        background: transparent;
+      }
+      .count {
+        color: var(--muted);
+      }
+
+      /* grid */
+      .grid {
+        display: grid;
+        gap: 22px;
+        grid-template-columns: repeat(3, 1fr);
+      }
+      @media (max-width: 1024px) {
+        .grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 640px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--ring);
+        border-radius: 18px;
+        padding: 18px;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+      }
+      .thumb {
+        width: 100%;
+        height: 240px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+        background: linear-gradient(180deg, #f5f9ff, #fff);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .title {
+        font-weight: 800;
+        margin: 6px 0 10px;
+      }
+      .price {
+        color: var(--price);
+        font-weight: 800;
+        margin-bottom: 14px;
+      }
+      .btns {
+        display: flex;
+        gap: 12px;
+        margin-top: auto;
+      }
+      .btn {
+        flex: 1;
+        text-align: center;
+        padding: 12px 16px;
+        border-radius: 12px;
+        font-weight: 800;
+        color: #fff;
+      }
+      .btn-primary {
+        background: var(--btn1);
+      }
+      .btn-market {
+        background: var(--btn2);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="crumbs">
+          <a href="yuki1.html">Beranda</a> / <strong>Makanan Bayi</strong>
+        </div>
+        <h1>Katalog Produk — Makanan Bayi</h1>
+        <div style="color: var(--muted)">
+          Bubur, snack, puree, biskuit, puffs, finger food, cereal, dan meal
+          pouch. Filter & cari cepat.
+        </div>
+      </header>
+
+      <!-- filter tipe -->
+      <nav class="subnav">
+        <div class="chips" id="chips">
+          <button class="chip is-active" data-filter="semua">Semua</button>
+          <button class="chip" data-filter="bubur">Bubur</button>
+          <button class="chip" data-filter="snack">Snack</button>
+          <button class="chip" data-filter="puree">Puree</button>
+          <button class="chip" data-filter="biskuit">Biskuit</button>
+          <button class="chip" data-filter="puffs">Puffs</button>
+          <button class="chip" data-filter="finger-food">Finger Food</button>
+          <button class="chip" data-filter="cereal">Cereal</button>
+          <button class="chip" data-filter="pouch">Meal Pouch</button>
+          <button class="chip" data-filter="organik">Organik</button>
+          <button class="chip" data-filter="6-12">6–12 bln</button>
+          <button class="chip" data-filter="1-3">1–3 thn</button>
+          <button class="chip" data-filter="3plus">3+ thn</button>
+        </div>
+      </nav>
+
+      <div class="tools">
+        <div class="search">
+          <input id="q" type="search" placeholder="Cari merek / varian…" />
+        </div>
+        <div class="count" id="count"></div>
+      </div>
+
+      <section id="grid" class="grid"></section>
+    </div>
+
+    <script>
+      // ======= DATA CONTOH (ganti dengan data asli kamu) =======
+      const PRODUK = [
+        {
+          nama: "Promina Bubur 6+ 120gr",
+          harga: 15999,
+          gambar: "images/products/promina-bbr.webp",
+          slug: "promina-bubur-6",
+          shopee: "https://s.shopee.co.id/qZST4hLj6",
+          cats: ["makanan", "bubur", "6-12"],
+          deskripsi: `
+            <p><b>Promina Bubur Bayi 6+</b> makanan pendamping ASI (MPASI) instan yang diformulasikan khusus untuk bayi usia 6 bulan ke atas, dengan tekstur lembut dan gizi seimbang.</p>
+              <ul>
+                <li><b>Usia</b>: 6 bulan ke atas</li>
+                <li><b>Varian rasa</b>: beragam (ayam, beras merah, kacang hijau, dll)</li>
+                <li><b>Fitur</b>: diperkaya vitamin & mineral, zat besi, kalsium, dan protein</li>
+                <li><b>Tekstur</b>: lembut & mudah dicerna</li>
+                <li><b>Kemasan</b>: 120g (tergantung varian)</li>
+                <li><b>Saran</b>: praktis diseduh dengan air hangat, cocok untuk peralihan awal MPASI</li>
+              </ul>
+`,
+        },
+
+        {
+          nama: "Promina Puffs 15g",
+          harga: 8399,
+          gambar: "images/products/promina.webp",
+          slug: "promina-puffs-banana-15g",
+          shopee: "https://s.shopee.co.id/9AEaOCLYl2",
+          cats: ["makanan", "puffs", "snack", "pouch"],
+          deskripsi: `
+            <p>Snack bayi bentuk puff rasa pisang,blueberry, dan apel strawberry mudah larut di mulut.</p>
+              <ul>
+                <li>Cocok usia 8 bulan ke atas</li>
+                <li>Netto: 15g</li>
+              </ul>
+    `,
+        },
+        {
+          nama: "Promina Marie Susu 150gr",
+          harga: 19099,
+          gambar: "images/products/pro-marie.webp",
+          slug: "promina-marie-susu",
+          shopee: "https://s.shopee.co.id/6fXFQ78SQO",
+          cats: ["makanan", "biskuit", "6-12", "snack"],
+          deskripsi: `
+            <p><b>Promina Marie Susu</b> biskuit bergizi untuk bayi dan anak dengan rasa susu yang enak, tekstur renyah namun mudah larut di mulut sehingga aman untuk si kecil.</p>
+              <ul>
+                <li><b>Usia</b>: mulai 8 bulan ke atas (dengan pengawasan orang tua)</li>
+                <li><b>Varian rasa</b>: susu</li>
+                <li><b>Fitur</b>: diperkaya kalsium, zat besi, vitamin, dan mineral</li>
+                <li><b>Tekstur</b>: renyah, mudah larut saat dikunyah/dihisap</li>
+                <li><b>Kemasan</b>: biskuit dalam kemasan praktis</li>
+                <li><b>Saran</b>: bisa dimakan langsung sebagai finger food atau dihancurkan dengan susu/air hangat untuk bubur biskuit</li>
+              </ul>
+`,
+        },
+        {
+          nama: "Promina Bubur 8+ 120gr",
+          harga: 19799,
+          gambar: "images/products/promina-bbr-8.webp",
+          slug: "promina-bubur-bayi-120g",
+          shopee: "https://s.shopee.co.id/2qKWrR0psb",
+          cats: ["makanan", "bubur", "6-12"],
+          deskripsi: `
+            <p><b>Promina Bubur Bayi 8+</b> MPASI instan untuk bayi usia 8 bulan ke atas dengan tekstur lebih padat, membantu melatih keterampilan mengunyah dan menelan.</p>
+              <ul>
+                <li><b>Usia</b>: 8 bulan ke atas</li>
+                <li><b>Varian rasa</b>: ayam kampung, sapi bayam, salmon, dan lainnya</li>
+                <li><b>Fitur</b>: diperkaya zat besi, kalsium, vitamin A, C, D, serta omega 3 & 6</li>
+                <li><b>Tekstur</b>: lebih kasar dibanding bubur 6+, mendukung stimulasi oromotor</li>
+                <li><b>Kemasan</b>: 120g (tergantung varian)</li>
+                <li><b>Saran</b>: cocok sebagai peralihan dari bubur halus ke makanan dengan tekstur lebih beragam</li>
+              </ul>
+`,
+        },
+        {
+          nama: "Milna Rice Crackers 20gr",
+          harga: 17699,
+          gambar: "images/products/mln-crck.webp",
+          slug: "milna-rice-crackers",
+          shopee: "https://s.shopee.co.id/1qRzfqkuZx",
+          cats: ["makanan", "snack", "6-12", "finger-food"],
+          deskripsi: `
+            <p><b>Milna Rice Crackers</b> camilan sehat berbahan dasar beras yang dirancang khusus untuk bayi dan anak, dengan tekstur ringan, renyah, namun mudah larut di mulut.</p>
+              <ul>
+                <li><b>Usia</b>: mulai 6 bulan ke atas</li>
+                <li><b>Varian rasa</b>: original, sayur, buah, dan lainnya</li>
+                <li><b>Fitur</b>: tanpa pengawet & pewarna buatan, diperkaya vitamin dan mineral</li>
+                <li><b>Tekstur</b>: ringan & mudah larut, aman untuk gusi & gigi bayi</li>
+                <li><b>Kemasan</b>: kemasan praktis 40g (varian tergantung produk)</li>
+                <li><b>Saran</b>: cocok sebagai snack MPASI atau finger food untuk melatih bayi makan sendiri</li>
+              </ul>
+`,
+        },
+        {
+          nama: "Omo Krispy-O 15gr",
+          harga: 8399,
+          gambar: "images/products/omo.webp",
+          slug: "omo-krispy-o",
+          shopee: "https://s.shopee.co.id/1qS4MHx6EG",
+          cats: ["makanan", "pouch", "puree", "organik", "6-12", "puff"],
+          deskripsi: `
+            <p><b>Omo! Krispy</b> camilan bayi berbentuk crackers renyah yang diformulasikan khusus untuk si kecil, aman, sehat, dan bergizi.</p>
+              <ul>
+                <li><b>Usia</b>: mulai 8 bulan ke atas</li>
+                <li><b>Varian rasa</b>: tersedia berbagai rasa (misalnya keju, sayur, buah)</li>
+                <li><b>Fitur</b>: bebas bahan pengawet & pewarna buatan, tekstur mudah larut di mulut</li>
+                <li><b>Kandungan</b>: diperkaya vitamin & mineral untuk mendukung pertumbuhan</li>
+                <li><b>Kemasan</b>: praktis dalam sachet/box (berat bervariasi)</li>
+                <li><b>Saran</b>: cocok sebagai finger food & snack sehat pendamping MPASI</li>
+              </ul>
+`,
+        },
+        {
+          nama: "Cerelac Bubur 6+ 120gr",
+          harga: 12999,
+          gambar: "images/products/cerelac-6.webp",
+          slug: "cerelac-bubur-6",
+          shopee: "https://s.shopee.co.id/3qD8kIqcwq",
+          cats: ["makanan", "bubur", "snack", "6-12"],
+          deskripsi: `
+            <p><b>Nestlé Cerelac Bubur Bayi 6+</b> MPASI instan yang diformulasikan khusus untuk bayi usia 6 bulan ke atas, membantu memenuhi kebutuhan gizi harian dengan rasa lezat dan tekstur lembut.</p>
+              <ul>
+                <li><b>Usia</b>: 6 bulan ke atas</li>
+                <li><b>Varian rasa</b>: beras merah, kacang hijau, ayam wortel, dan lainnya</li>
+                <li><b>Fitur</b>: diperkaya zat besi, vitamin A, C, D, kalsium, serta probiotik Bifidus BL untuk pencernaan sehat</li>
+                <li><b>Tekstur</b>: halus & lembut, sesuai untuk tahap awal MPASI</li>
+                <li><b>Kemasan</b>: box 120g / 250g (tergantung varian)</li>
+                <li><b>Saran</b>: cukup diseduh air hangat, praktis dan cepat disajikan</li>
+              </ul>
+`,
+        },
+        {
+          nama: "Koko Krunch Cereal 150gr",
+          harga: 23899,
+          gambar: "images/products/koko-krunch.webp",
+          slug: "cerelac-cereal-beras-merah-12",
+          shopee: "https://s.shopee.co.id/802hiIRJsZ",
+          cats: ["makanan", "cereal", "1-3"],
+          deskripsi: `
+            <p><b>Nestlé Koko Krunch</b> sereal sarapan dengan rasa cokelat nikmat yang digemari anak-anak, terbuat dari gandum utuh untuk energi dan nutrisi setiap hari.</p>
+              <ul>
+                <li><b>Usia</b>: umumnya untuk anak usia 3 tahun ke atas (dengan pengawasan orang tua)</li>
+                <li><b>Rasa</b>: cokelat</li>
+                <li><b>Fitur</b>: sumber vitamin B, kalsium, dan zat besi</li>
+                <li><b>Tekstur</b>: renyah saat kering, lembut saat disajikan dengan susu</li>
+                <li><b>Kemasan</b>: tersedia dalam kemasan 170g, 330g, hingga family pack</li>
+                <li><b>Saran</b>: cocok untuk sarapan sehat, bisa disantap dengan susu atau langsung sebagai snack</li>
+              </ul>
+`,
+        },
+      ];
+      // =========================================================
+
+      const grid = document.getElementById("grid");
+      const chips = document.querySelectorAll("[data-filter]");
+      const q = document.getElementById("q");
+      const count = document.getElementById("count");
+
+      const money = (n) => "Rp " + Number(n).toLocaleString("id-ID");
+
+      // perbaiki: terima idx
+      function template(p, idx) {
+        return `
+<article class="card" data-category="${(p.cats || []).join(",")}">
+  <div class="thumb">
+    <img src="${p.gambar}" alt="${p.nama}">
+  </div>
+  <div class="title">${p.nama}</div>
+  <div class="price">${money(p.harga)}</div>
+  <div class="btns">
+    <!-- tombol lihat produk jadi trigger modal -->
+    <a href="#" class="btn btn-primary btn-detail" data-index="${idx}">Lihat Produk</a>
+    <!-- tombol Shopee tetap link normal -->
+    <a class="btn btn-market" href="${
+      p.shopee
+    }" target="_blank" rel="noopener">Shopee</a>
+  </div>
+</article>
+  `;
+      }
+      // render yang benar
+      function render(list) {
+        grid.innerHTML = list.map((p, i) => template(p, i)).join("");
+        count.textContent = `${list.length} produk`;
+
+        // handler modal
+        grid.querySelectorAll(".btn-detail").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const i = Number(btn.dataset.index);
+            if (typeof openModal === "function") openModal(list[i]);
+            else alert("Modal belum dipasang. Produk: " + list[i].nama);
+          });
+        });
+      }
+
+      function applyFilter(tag) {
+        const term = (q.value || "").toLowerCase();
+        const filtered = PRODUK.filter((p) => {
+          const inCat = tag === "semua" ? true : (p.cats || []).includes(tag);
+          const inText = term ? p.nama.toLowerCase().includes(term) : true;
+          const isDiapers = (p.cats || []).includes("makanan");
+          return isDiapers && inCat && inText;
+        });
+        render(filtered);
+        history.replaceState(
+          null,
+          "",
+          `#cat=${encodeURIComponent(tag)}${
+            term ? `&q=${encodeURIComponent(term)}` : ""
+          }`
+        );
+      }
+
+      // events (biarkan seperti punya kamu)
+      chips.forEach((chip) => {
+        chip.addEventListener("click", () => {
+          chips.forEach((c) => c.classList.remove("is-active"));
+          chip.classList.add("is-active");
+          applyFilter(chip.dataset.filter);
+          window.scrollTo({
+            top: document.querySelector(".wrap").offsetTop,
+            behavior: "smooth",
+          });
+        });
+      });
+      q.addEventListener("input", () => {
+        const active =
+          document.querySelector(".chip.is-active")?.dataset.filter || "semua";
+        applyFilter(active);
+      });
+
+      // init
+      const params = new URLSearchParams(location.hash.replace("#", ""));
+      const initial = params.get("cat") || "semua";
+      (
+        Array.from(chips).find((c) => c.dataset.filter === initial) || chips[0]
+      ).classList.add("is-active");
+      render(PRODUK.filter((p) => (p.cats || []).includes("makanan")));
+    </script>
+    <!-- Modal Detail Produk -->
+    <div
+      id="product-modal"
+      style="
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+      "
+    >
+      <div
+        id="modal-backdrop"
+        style="position: absolute; inset: 0; background: rgba(0, 0, 0, 0.5)"
+      ></div>
+      <div
+        role="dialog"
+        aria-modal="true"
+        style="
+          position: relative;
+          max-width: 780px;
+          width: 92%;
+          max-height: 88vh;
+          overflow: auto;
+          background: #fff;
+          border-radius: 16px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        "
+      >
+        <button
+          id="modal-close"
+          style="
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            border: 0;
+            background: #fff;
+            width: 38px;
+            height: 38px;
+            border-radius: 999px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+          "
+        >
+          ✕
+        </button>
+        <div
+          style="
+            display: grid;
+            gap: 18px;
+            grid-template-columns: 180px 1fr;
+            padding: 18px;
+          "
+        >
+          <div
+            style="
+              background: linear-gradient(180deg, #f5f9ff, #fff);
+              border-radius: 12px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 180px;
+              overflow: hidden;
+            "
+          >
+            <img
+              id="modal-img"
+              alt=""
+              style="width: 100%; height: 100%; object-fit: contain"
+            />
+          </div>
+          <div>
+            <h3
+              id="modal-title"
+              style="margin: 0 0 6px; font-size: 20px; font-weight: 800"
+            ></h3>
+            <div
+              id="modal-price"
+              style="color: #e91e63; font-weight: 800; margin-bottom: 10px"
+            ></div>
+            <div id="modal-desc" style="line-height: 1.6"></div>
+            <div
+              style="
+                display: flex;
+                gap: 10px;
+                margin-top: 14px;
+                flex-wrap: wrap;
+              "
+            >
+              <a
+                id="modal-shopee"
+                target="_blank"
+                rel="noopener"
+                style="
+                  background: #ec1971;
+                  color: #fff;
+                  font-weight: 800;
+                  padding: 10px 14px;
+                  border-radius: 12px;
+                  text-decoration: none;
+                "
+                >Beli di Shopee</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ===== Modal logic =====
+      const __modal = document.getElementById("product-modal");
+      const __close = document.getElementById("modal-close");
+      const __backdrop = document.getElementById("modal-backdrop");
+
+      function openModal(p) {
+        document.getElementById("modal-img").src = p.gambar;
+        document.getElementById("modal-img").alt = p.nama;
+        document.getElementById("modal-title").textContent = p.nama;
+        document.getElementById("modal-price").textContent =
+          "Rp " + Number(p.harga).toLocaleString("id-ID");
+        document.getElementById("modal-desc").innerHTML =
+          p.deskripsi || "<p>Belum ada deskripsi.</p>";
+        document.getElementById("modal-shopee").href = p.shopee || "#";
+
+        __modal.style.display = "flex";
+        document.body.style.overflow = "hidden";
+      }
+      function closeModal() {
+        __modal.style.display = "none";
+        document.body.style.overflow = "";
+      }
+      __close.addEventListener("click", closeModal);
+      __backdrop.addEventListener("click", closeModal);
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeModal();
+      });
+    </script>
+  </body>
+</html>

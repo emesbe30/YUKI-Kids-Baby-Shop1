@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Katalog Minyak (Telon & Kayu Putih)</title>
+    <style>
+      :root {
+        --brand: #0f62fe;
+        --ink: #0f172a;
+        --muted: #64748b;
+        --bg1: #fff6f8;
+        --bg2: #eef6ff;
+        --card: #fff;
+        --ring: #ececec;
+        --price: #e91e63;
+        --btn1: #ff7a00;
+        --btn2: #ec1971;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        font-family: system-ui, Inter, Segoe UI, Roboto, Arial;
+        color: var(--ink);
+        background: linear-gradient(180deg, var(--bg2), var(--bg1)) fixed;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      .wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 24px 18px;
+      }
+      header {
+        text-align: center;
+        margin: 10px 0 8px;
+      }
+      h1 {
+        margin: 0 0 6px;
+      }
+      .crumbs {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      /* subnav */
+      .subnav {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        background: #fff;
+        border-block: 1px solid var(--ring);
+        padding: 12px 0;
+        margin: 14px 0 18px;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+      }
+      .chip {
+        border: 1px solid var(--ring);
+        background: #fff;
+        padding: 0.6rem 0.9rem;
+        border-radius: 999px;
+        cursor: pointer;
+        font-weight: 700;
+        transition: 0.15s;
+      }
+      .chip:hover {
+        transform: translateY(-1px);
+      }
+      .chip.is-active {
+        border-color: var(--brand);
+        box-shadow: 0 6px 22px rgba(15, 98, 254, 0.14);
+      }
+
+      /* tools */
+      .tools {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 6px 0 18px;
+      }
+      .search {
+        min-width: 260px;
+        display: flex;
+        align-items: center;
+        border: 1px solid var(--ring);
+        border-radius: 12px;
+        background: #fff;
+      }
+      .search input {
+        border: none;
+        outline: none;
+        padding: 0.7rem 0.9rem;
+        border-radius: 12px;
+        flex: 1;
+        background: transparent;
+      }
+      .count {
+        color: var(--muted);
+      }
+
+      /* grid */
+      .grid {
+        display: grid;
+        gap: 22px;
+        grid-template-columns: repeat(3, 1fr);
+      }
+      @media (max-width: 1024px) {
+        .grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 640px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--ring);
+        border-radius: 18px;
+        padding: 18px;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+      }
+      .thumb {
+        width: 100%;
+        height: 240px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+        background: linear-gradient(180deg, #f5f9ff, #fff);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .title {
+        font-weight: 800;
+        margin: 6px 0 10px;
+      }
+      .price {
+        color: var(--price);
+        font-weight: 800;
+        margin-bottom: 14px;
+      }
+      .btns {
+        display: flex;
+        gap: 12px;
+        margin-top: auto;
+      }
+      .btn {
+        flex: 1;
+        text-align: center;
+        padding: 12px 16px;
+        border-radius: 12px;
+        font-weight: 800;
+        color: #fff;
+      }
+      .btn-primary {
+        background: var(--btn1);
+      }
+      .btn-market {
+        background: var(--btn2);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="crumbs">
+          <a href="yuki1.html">Beranda</a> / <strong>Minyak</strong>
+        </div>
+        <h1>Katalog Produk — Minyak Telon & Kayu Putih</h1>
+        <div style="color: var(--muted)">
+          Semua minyak telon & kayu putih. Gunakan filter jenis/ukuran/varian,
+          lalu buka detail atau langsung ke Shopee.
+        </div>
+      </header>
+
+      <!-- Filter 1: Jenis -->
+      <nav class="subnav">
+        <div class="chips" id="chips-jenis">
+          <button class="chip is-active" data-jenis="semua">Semua</button>
+          <button class="chip" data-jenis="telon">Telon</button>
+          <button class="chip" data-jenis="kayuputih">Kayu Putih</button>
+        </div>
+      </nav>
+
+      <!-- Filter 2: Ukuran & Varian -->
+      <nav class="subnav" style="margin-top: -10px">
+        <div class="chips" id="chips-atribut">
+          <button class="chip is-active" data-attr="semua">Semua Varian</button>
+          <button class="chip" data-attr="15ml">15ml</button>
+          <button class="chip" data-attr="30ml">30ml</button>
+          <button class="chip" data-attr="60ml">60ml</button>
+          <button class="chip" data-attr="90ml">90ml</button>
+          <button class="chip" data-attr="100ml">100ml</button>
+          <button class="chip" data-attr="125ml">125ml</button>
+          <button class="chip" data-attr="plus">Plus</button>
+          <button class="chip" data-attr="extra-hot">Extra Hot</button>
+          <button class="chip" data-attr="eucalyptus">Eucalyptus</button>
+          <button class="chip" data-attr="aroma">Aromatherapy</button>
+          <button class="chip" data-attr="bayi">Bayi</button>
+          <button class="chip" data-attr="keluarga">Keluarga</button>
+        </div>
+      </nav>
+
+      <div class="tools">
+        <div class="search">
+          <input id="q" type="search" placeholder="Cari merek / varian…" />
+        </div>
+        <div class="count" id="count"></div>
+      </div>
+
+      <section id="grid" class="grid"></section>
+    </div>
+
+    <script>
+      // ========= DATA CONTOH (gabungan telon + kayu putih) =========
+      const PRODUK = [
+        // Telon
+        {
+          nama: "Konicare Minyak Telon",
+          harga: 14899,
+          gambar: "images/products/konicare-mt.webp",
+          slug: "konicare-mintak-telon",
+          shopee: "https://s.shopee.co.id/1g8ZIZ5WGR",
+          cats: ["telon", "30ml", "60ml", "125ml", "bayi", "original"],
+          deskripsi: `
+            <p><b>Konicare Minyak Telon</b> minyak telon dengan aroma lembut khas bayi yang memberikan kehangatan sekaligus membantu melindungi dari gigitan nyamuk.</p>
+              <ul>
+                <li><b>Ukuran</b>: tersedia 30ml, 60ml, 125ml</li>
+                <li><b>Kandungan</b>: minyak adas, minyak kelapa, minyak kayu putih</li>
+                <li><b>Fitur</b>: memberikan rasa hangat nyaman pada tubuh bayi, membantu mencegah perut kembung & masuk angin</li>
+                <li><b>Manfaat tambahan</b>: aroma lembut menenangkan bayi, bisa digunakan sebagai minyak pijat ringan</li>
+                <li><b>Saran pemakaian</b>: oleskan pada perut, punggung, dada, dan telapak kaki bayi setelah mandi atau saat diperlukan</li>
+              </ul>
+`,
+        },
+        {
+          nama: "Konicare Minyak Telon plus",
+          harga: 17399,
+          gambar: "images/products/konicare-mt-plus.webp",
+          slug: "konicare-minyak-telon-plus",
+          shopee: "https://s.shopee.co.id/7Kmw3DZpcm",
+          cats: ["telon", "plus", "30ml", "60ml", "125ml", "bayi"],
+          deskripsi: `
+            <p><b>Konicare Minyak Telon Plus</b> minyak telon dengan formula lembut khas bayi, dilengkapi eucalyptus oil untuk membantu memberikan perlindungan ekstra dari gigitan nyamuk hingga 8 jam.</p>
+              <ul>
+                <li><b>Ukuran</b>: tersedia 30ml, 60ml, 125ml</li>
+                <li><b>Kandungan</b>: minyak kelapa, minyak kayu putih, minyak adas, eucalyptus oil</li>
+                <li><b>Fitur</b>: memberikan rasa hangat yang nyaman pada tubuh bayi, mencegah perut kembung & masuk angin</li>
+                <li><b>Manfaat tambahan</b>: melindungi bayi dari gigitan nyamuk & serangga, aroma lembut menenangkan</li>
+                <li><b>Saran pemakaian</b>: oleskan merata pada perut, punggung, dada, dan telapak kaki bayi setelah mandi atau saat diperlukan</li>
+              </ul>
+`,
+        },
+        {
+          nama: "Minyak Telon Cap Gajah",
+          harga: 6099,
+          gambar: "images/products/gajah-telon.webp",
+          slug: "minyak-telon-cap-gajah",
+          shopee: "https://s.shopee.co.id/9fAqqobx2c",
+          cats: ["telon", "15ml", "30ml", "60ml", "120ml", "bayi"],
+          deskripsi: `
+            <p><b>Minyak Telon Cap Gajah</b> minyak telon dengan aroma khas yang menenangkan, memberikan kehangatan alami untuk bayi dan membantu menjaga kenyamanan tubuh si kecil.</p>
+              <ul>
+                <li><b>Ukuran</b>: tersedia 15ml, 30ml, 60ml, 120ml</li>
+                <li><b>Kandungan</b>: minyak kelapa, minyak kayu putih, minyak adas</li>
+                <li><b>Fitur</b>: memberikan rasa hangat, membantu meredakan perut kembung & masuk angin</li>
+                <li><b>Manfaat tambahan</b>: dapat digunakan untuk pijat ringan, menjaga bayi tetap nyaman setelah mandi</li>
+                <li><b>Saran pemakaian</b>: oleskan pada perut, punggung, dada, dan telapak kaki bayi setelah mandi atau saat diperlukan</li>
+              </ul>
+`,
+        },
+        {
+          nama: "My Baby Minyak Telon",
+          harga: 11499,
+          gambar: "images/products/my-baby-hijau.webp",
+          slug: "my-baby-telon",
+          shopee: "https://s.shopee.co.id/7fPrIiqpEn",
+          cats: ["telon", "15ml", "30ml", "60ml", "90ml", "bayi"],
+          deskripsi: `
+            <p><b>My Baby Minyak Telon</b> minyak telon dengan aroma lembut khas bayi, memberikan rasa hangat nyaman sekaligus membantu melindungi kulit si kecil dari udara dingin dan perut kembung.</p>
+              <ul>
+                <li><b>Ukuran</b>: tersedia 15ml, 30ml, 60ml, 90ml</li>
+                <li><b>Kandungan</b>: minyak kelapa, minyak kayu putih, minyak adas</li>
+                <li><b>Fitur</b>: memberikan rasa hangat yang pas di kulit bayi, membantu mencegah perut kembung & masuk angin</li>
+                <li><b>Manfaat tambahan</b>: aroma lembut khas bayi yang menenangkan, cocok untuk pijat ringan setelah mandi</li>
+                <li><b>Saran pemakaian</b>: usapkan secara merata pada perut, dada, punggung, dan telapak kaki bayi setelah mandi atau saat diperlukan</li>
+              </ul>
+`,
+        },
+
+        // Kayu Putih
+        {
+          nama: "Cap Lang Kayu Putih ",
+          harga: 8199,
+          gambar: "images/products/caplang.webp",
+          slug: "cap-lang-kayu-putih",
+          shopee: "https://s.shopee.co.id/2g16TyqYnQ",
+          cats: [
+            "kayuputih",
+            "30ml",
+            "15ml",
+            "60ml",
+            "100ml",
+            "original",
+            "keluarga",
+          ],
+          deskripsi: `
+            <p><b>Minyak Kayu Putih Cap Lang</b> minyak kayu putih asli dengan aroma segar khas, membantu memberikan rasa hangat, meredakan masuk angin, dan mencegah perut kembung.</p>
+              <ul>
+                <li><b>Ukuran</b>: tersedia 15ml, 30ml, 60ml, 100ml</li>
+                <li><b>Kandungan</b>: minyak kayu putih (Cajuput Oil) dengan kadar cineol tinggi</li>
+                <li><b>Fitur</b>: memberikan kehangatan tubuh, membantu meredakan sakit perut, pusing, dan gejala masuk angin</li>
+                <li><b>Manfaat tambahan</b>: bisa digunakan untuk pijat ringan dan mengurangi gatal akibat gigitan serangga</li>
+                <li><b>Saran pemakaian</b>: oleskan pada perut, dada, punggung, atau bagian tubuh lain sesuai kebutuhan</li>
+              </ul>
+`,
+        },
+        {
+          nama: "Konicare Minyak Kayu Putih",
+          harga: 14599,
+          gambar: "images/products/konicare-mkp.webp",
+          slug: "konicare-minyak-kayu-putih",
+          shopee: "https://s.shopee.co.id/LdBidxkKR",
+          cats: ["kayuputih", "30ml", "60ml", "125ml", "keluarga", "original"],
+          deskripsi: `
+            <p><b>Konicare Minyak Kayu Putih</b> minyak kayu putih berkualitas dengan aroma lembut, membantu memberikan rasa hangat alami untuk tubuh sekaligus meredakan berbagai keluhan ringan.</p>
+              <ul>
+                <li><b>Ukuran</b>: tersedia 30ml, 60ml, 125ml</li>
+                <li><b>Kandungan</b>: minyak kayu putih murni (Cajuput Oil)</li>
+                <li><b>Fitur</b>: memberikan rasa hangat nyaman, membantu meredakan perut kembung, pusing, dan masuk angin</li>
+                <li><b>Manfaat tambahan</b>: bisa digunakan untuk pijat ringan, mengurangi gatal akibat gigitan serangga</li>
+                <li><b>Saran pemakaian</b>: oleskan pada perut, dada, punggung, atau bagian tubuh lain sesuai kebutuhan</li>
+              </ul>
+`,
+        },
+        {
+          nama: "Kayu Putih Caplang Plus",
+          harga: 8899,
+          gambar: "images/products/lang-plus.webp",
+          slug: "kayu-putih-caplang-plus",
+          shopee: "https://s.shopee.co.id/1LViw7eRoD",
+          cats: ["kayuputih", "30ml", "60ml", "eucalyptus", "keluarga", "plus"],
+          deskripsi: `
+            <p><b>Minyak Kayu Putih Cap Lang Plus</b> minyak kayu putih dengan tambahan formula eucalyptus untuk memberikan kehangatan ekstra sekaligus perlindungan lebih lama.</p>
+              <ul>
+                <li><b>Ukuran</b>: tersedia 30ml, 60ml</li>
+                <li><b>Kandungan</b>: minyak kayu putih (cajuput oil) dengan kadar cineol tinggi & eucalyptus oil</li>
+                <li><b>Fitur</b>: memberikan rasa hangat lebih lama, membantu meredakan perut kembung, masuk angin, dan pegal-pegal</li>
+                <li><b>Manfaat tambahan</b>: bisa digunakan untuk pijat ringan, membantu mengurangi gatal akibat gigitan serangga, aroma segar menenangkan</li>
+                <li><b>Saran pemakaian</b>: oleskan pada perut, dada, punggung, atau bagian tubuh lain sesuai kebutuhan, terutama saat udara dingin</li>
+              </ul>
+`,
+        },
+      ];
+      // ============================================================
+      const grid = document.getElementById("grid");
+      const q = document.getElementById("q");
+      const count = document.getElementById("count");
+
+      // chip filter
+      const chipsJenis = document.querySelectorAll("[data-jenis]");
+      const chipsAttr = document.querySelectorAll("[data-attr]");
+
+      // state filter
+      let selJenis = "semua";
+      let selAttr = "semua";
+
+      const money = (n) => "Rp " + Number(n).toLocaleString("id-ID");
+
+      function template(p, idx) {
+        return `
+  <article class="card" data-category="${(p.cats || []).join(",")}">
+    <div class="thumb">
+      <img src="${p.gambar}" alt="${p.nama}">
+    </div>
+    <div class="title">${p.nama}</div>
+    <div class="price">${money(p.harga)}</div>
+    <div class="btns">
+      <a href="#" class="btn btn-primary btn-detail" data-index="${idx}">Lihat Produk</a>
+      <a class="btn btn-market" href="${
+        p.shopee
+      }" target="_blank" rel="noopener">Shopee</a>
+    </div>
+  </article>
+  `;
+      }
+
+      function render(list) {
+        grid.innerHTML = list.map((p, i) => template(p, i)).join("");
+        count.textContent = `${list.length} produk`;
+
+        // modal handler
+        grid.querySelectorAll(".btn-detail").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const i = Number(btn.dataset.index);
+            if (typeof openModal === "function") openModal(list[i]);
+          });
+        });
+      }
+
+      function applyFilter() {
+        const term = (q.value || "").toLowerCase();
+
+        const filtered = PRODUK.filter((p) => {
+          const cats = p.cats || [];
+          const isMinyak = cats.includes("telon") || cats.includes("kayuputih");
+
+          const inJenis = selJenis === "semua" ? true : cats.includes(selJenis);
+          const inAttr = selAttr === "semua" ? true : cats.includes(selAttr);
+          const inText = term ? p.nama.toLowerCase().includes(term) : true;
+
+          return isMinyak && inJenis && inAttr && inText;
+        });
+
+        render(filtered);
+      }
+
+      // event chip jenis
+      chipsJenis.forEach((chip) => {
+        chip.addEventListener("click", () => {
+          chipsJenis.forEach((c) => c.classList.remove("is-active"));
+          chip.classList.add("is-active");
+          selJenis = chip.dataset.jenis;
+          applyFilter();
+        });
+      });
+
+      // event chip atribut
+      chipsAttr.forEach((chip) => {
+        chip.addEventListener("click", () => {
+          chipsAttr.forEach((c) => c.classList.remove("is-active"));
+          chip.classList.add("is-active");
+          selAttr = chip.dataset.attr;
+          applyFilter();
+        });
+      });
+
+      // event search
+      q.addEventListener("input", applyFilter);
+
+      // init
+      applyFilter();
+    </script>
+    <!-- Modal Detail Produk -->
+    <div
+      id="product-modal"
+      style="
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+      "
+    >
+      <div
+        id="modal-backdrop"
+        style="position: absolute; inset: 0; background: rgba(0, 0, 0, 0.5)"
+      ></div>
+      <div
+        role="dialog"
+        aria-modal="true"
+        style="
+          position: relative;
+          max-width: 780px;
+          width: 92%;
+          max-height: 88vh;
+          overflow: auto;
+          background: #fff;
+          border-radius: 16px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        "
+      >
+        <button
+          id="modal-close"
+          style="
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            border: 0;
+            background: #fff;
+            width: 38px;
+            height: 38px;
+            border-radius: 999px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+          "
+        >
+          ✕
+        </button>
+        <div
+          style="
+            display: grid;
+            gap: 18px;
+            grid-template-columns: 180px 1fr;
+            padding: 18px;
+          "
+        >
+          <div
+            style="
+              background: linear-gradient(180deg, #f5f9ff, #fff);
+              border-radius: 12px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 180px;
+              overflow: hidden;
+            "
+          >
+            <img
+              id="modal-img"
+              alt=""
+              style="width: 100%; height: 100%; object-fit: contain"
+            />
+          </div>
+          <div>
+            <h3
+              id="modal-title"
+              style="margin: 0 0 6px; font-size: 20px; font-weight: 800"
+            ></h3>
+            <div
+              id="modal-price"
+              style="color: #e91e63; font-weight: 800; margin-bottom: 10px"
+            ></div>
+            <div id="modal-desc" style="line-height: 1.6"></div>
+            <div
+              style="
+                display: flex;
+                gap: 10px;
+                margin-top: 14px;
+                flex-wrap: wrap;
+              "
+            >
+              <a
+                id="modal-shopee"
+                target="_blank"
+                rel="noopener"
+                style="
+                  background: #ec1971;
+                  color: #fff;
+                  font-weight: 800;
+                  padding: 10px 14px;
+                  border-radius: 12px;
+                  text-decoration: none;
+                "
+                >Beli di Shopee</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ===== Modal logic =====
+      const __modal = document.getElementById("product-modal");
+      const __close = document.getElementById("modal-close");
+      const __backdrop = document.getElementById("modal-backdrop");
+
+      function openModal(p) {
+        document.getElementById("modal-img").src = p.gambar;
+        document.getElementById("modal-img").alt = p.nama;
+        document.getElementById("modal-title").textContent = p.nama;
+        document.getElementById("modal-price").textContent =
+          "Rp " + Number(p.harga).toLocaleString("id-ID");
+        document.getElementById("modal-desc").innerHTML =
+          p.deskripsi || "<p>Belum ada deskripsi.</p>";
+        document.getElementById("modal-shopee").href = p.shopee || "#";
+
+        __modal.style.display = "flex";
+        document.body.style.overflow = "hidden";
+      }
+      function closeModal() {
+        __modal.style.display = "none";
+        document.body.style.overflow = "";
+      }
+      __close.addEventListener("click", closeModal);
+      __backdrop.addEventListener("click", closeModal);
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeModal();
+      });
+    </script>
+  </body>
+</html>

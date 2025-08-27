@@ -1,0 +1,212 @@
+:root {
+  --primary: #fff;
+  --bg: #ff7eb3;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  background: #ff7eb3;
+  color: white;
+  padding: 10px 0;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.4rem 7%;
+  z-index: 9999;
+}
+
+.logo {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+#hamburger-menu {
+  display: none;
+}
+
+.menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu li {
+  margin-left: 20px;
+}
+
+.menu li a {
+  color: white;
+  text-decoration: none;
+}
+
+.menu-icon {
+  display: none;
+  font-size: 1.8em;
+  cursor: pointer;
+}
+
+#menu-toggle {
+  display: none;
+}
+
+.hero {
+  text-align: center;
+  padding: 50px 20px;
+  background: #ffe4ec;
+}
+
+.produk-unggulan {
+  padding: 20px;
+  text-align: center;
+}
+
+.produk-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.produk-card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.produk-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 15px;
+  background: #ff4f8b;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+/* Responsif */
+/* laptop */
+@media (max-width: 1366) {
+  html {
+    font-size: 100%;
+  }
+}
+/* tablet */
+@media (max-width: 768px) {
+  html {
+    font-size: 85%;
+  }
+  #hamburger-menu {
+    display: inline-block;
+  }
+  .menu {
+    display: none;
+    flex-direction: column;
+    background: #ff7eb3;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 200px;
+    padding: 10px;
+  }
+  .menu li {
+    margin: 10px 0;
+  }
+  #menu-toggle:checked + .menu-icon + .menu {
+    display: flex;
+  }
+  .menu-icon {
+    display: block;
+  }
+}
+/* mobile phone */
+@media (max-width: 450px) {
+  html {
+    font-size: 60%;
+  }
+}
+/* Navbar umum */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: #ff8fab;
+  color: white;
+}
+
+.navbar .logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Tombol menu di HP */
+.menu-toggle {
+  display: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
+/* Animasi Floating Aksen    */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+@keyframes float-slow {
+  0% { transform: translateY(0);}
+  50% { transform: translateY(-15px);}
+  100% { transform: translateY(0);}
+}
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+.accent {
+  position: absolute;
+  animation: float 4s ease-in-out infinite;
+  opacity: 0.8;
+}
+
+/* Atur posisi masing-masing aksen */
+.accent.star {
+  top: 20px;
+  right: 30px;
+  animation-delay: 0s;
+}
+
+.accent.heart {
+  bottom: 50px;
+  left: 40%;
+  animation-delay: 1s;
+}
+
+.accent.teddy {
+  bottom: 10px;
+  right: 50px;
+  animation-delay: 2s;
+}

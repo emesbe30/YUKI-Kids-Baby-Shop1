@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Katalog Susu</title>
+    <style>
+      :root {
+        --brand: #0f62fe;
+        --ink: #0f172a;
+        --muted: #64748b;
+        --bg1: #fff6f8;
+        --bg2: #eef6ff;
+        --card: #fff;
+        --ring: #ececec;
+        --price: #e91e63;
+        --btn1: #ff7a00;
+        --btn2: #ec1971;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        font-family: system-ui, Inter, Segoe UI, Roboto, Arial;
+        color: var(--ink);
+        background: linear-gradient(180deg, var(--bg2), var(--bg1)) fixed;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 24px 18px;
+      }
+      header {
+        text-align: center;
+        margin: 10px 0 8px;
+      }
+      h1 {
+        margin: 0 0 6px;
+      }
+      .crumbs {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      /* subkategori chip */
+      .subnav {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        background: #fff;
+        border-block: 1px solid var(--ring);
+        padding: 12px 0;
+        margin: 14px 0 18px;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+      }
+      .chip {
+        border: 1px solid var(--ring);
+        background: #fff;
+        padding: 0.6rem 0.9rem;
+        border-radius: 999px;
+        cursor: pointer;
+        font-weight: 700;
+        transition: 0.15s;
+      }
+      .chip:hover {
+        transform: translateY(-1px);
+      }
+      .chip.is-active {
+        border-color: var(--brand);
+        box-shadow: 0 6px 22px rgba(15, 98, 254, 0.14);
+      }
+
+      /* tools */
+      .tools {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 6px 0 18px;
+      }
+      .search {
+        min-width: 260px;
+        display: flex;
+        align-items: center;
+        border: 1px solid var(--ring);
+        border-radius: 12px;
+        background: #fff;
+      }
+      .search input {
+        border: none;
+        outline: none;
+        padding: 0.7rem 0.9rem;
+        border-radius: 12px;
+        flex: 1;
+        background: transparent;
+      }
+      .count {
+        color: var(--muted);
+      }
+
+      /* grid kartu produk */
+      .grid {
+        display: grid;
+        gap: 22px;
+        grid-template-columns: repeat(3, 1fr);
+      }
+      @media (max-width: 1024px) {
+        .grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 640px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--ring);
+        border-radius: 18px;
+        padding: 18px;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+      }
+      .thumb {
+        width: 100%;
+        height: 240px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+        background: linear-gradient(180deg, #f5f9ff, #fff);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .title {
+        font-weight: 800;
+        margin: 6px 0 10px;
+      }
+      .price {
+        color: #e91e63;
+        font-weight: 800;
+        margin-bottom: 14px;
+      }
+      .btns {
+        display: flex;
+        gap: 12px;
+        margin-top: auto;
+      }
+      .btn {
+        flex: 1;
+        text-align: center;
+        padding: 12px 16px;
+        border-radius: 12px;
+        font-weight: 800;
+        color: #fff;
+      }
+      .btn-primary {
+        background: var(--btn1);
+      }
+      .btn-market {
+        background: var(--btn2);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="crumbs">
+          <a href="yuki1.html">Beranda</a> / <strong>Susu</strong>
+        </div>
+        <h1>Katalog Produk — Susu</h1>
+        <div style="color: var(--muted)">
+          Susu bayi & anak. Filter berdasarkan usia/tipe, buka detail, atau
+          langsung ke Shopee.
+        </div>
+      </header>
+
+      <!-- subkategori -->
+      <nav class="subnav">
+        <div class="chips" id="chips">
+          <button class="chip is-active" data-filter="semua">Semua</button>
+          <button class="chip" data-filter="0-6">0–6 bln</button>
+          <button class="chip" data-filter="6-12">6–12 bln</button>
+          <button class="chip" data-filter="1-3">1–3 thn</button>
+          <button class="chip" data-filter="3plus">3+ thn</button>
+          <button class="chip" data-filter="6plus">6-12 thn</button>
+          <button class="chip" data-filter="bubuk">Bubuk</button>
+          <button class="chip" data-filter="soya">Soya</button>
+        </div>
+      </nav>
+
+      <!-- tools -->
+      <div class="tools">
+        <div class="search">
+          <input id="q" type="search" placeholder="Cari merek / varian…" />
+        </div>
+        <div class="count" id="count"></div>
+      </div>
+
+      <!-- katalog -->
+      <section id="grid" class="grid"></section>
+    </div>
+
+    <script>
+      // ====== DATA CONTOH -> ganti dengan data realmu ======
+      const PRODUK = [
+        {
+          nama: "SGM Ananda 0-6 Bulan / 6-12 Bulan 1kg",
+          harga: 82000,
+          gambar: "images/products/sgm-0-6.webp",
+          slug: "sgm-ananda-1-0-6-400g",
+          shopee: "https://s.shopee.co.id/4Apu4DqbkW",
+          cats: ["susu", "0-6", "6-12", "bubuk"],
+          deskripsi: `
+        <p><b>SGM Ananda 0–12 Bulan</b> susu formula untuk bayi usia 0–12 bulan, diformulasikan dengan nutrisi penting untuk mendukung pertumbuhan fisik dan perkembangan otak bayi.</p>
+          <ul>
+            <li><b>Usia</b>: 0–12 bulan</li>
+            <li><b>Kandungan gizi</b>: protein, karbohidrat, lemak, vitamin, mineral, zat besi, kalsium, serta prebiotik FOS-Inulin</li>
+            <li><b>Manfaat</b>: membantu pertumbuhan optimal, mendukung perkembangan otak, serta menjaga kesehatan pencernaan bayi</li>
+            <li><b>Fitur</b>: diformulasikan sesuai standar keamanan & kebutuhan gizi bayi</li>
+            <li><b>Kemasan</b>: tersedia ukuran 200g, 400g, 600g, 1000g</li>
+            <li><b>Saran</b>: disajikan sesuai takaran saji yang dianjurkan pada kemasan; pemberian sebaiknya di bawah pengawasan tenaga kesehatan</li>
+          </ul>
+`,
+        },
+        {
+          nama: "Bebelove 1 & 2 (0-6/6-12) Bulan 800g",
+          harga: 175000,
+          gambar: "images/products/bebelove-1-2.webp",
+          slug: "bebelove-2-6-12-800g",
+          shopee: "https://s.shopee.co.id/1BCIUxrAKu",
+          cats: ["susu", "6-12", "0-6", "bubuk"],
+          deskripsi: `
+        <p><b>Bebelove 1 & 2</b> susu formula untuk bayi dari lahir hingga 12 bulan, dengan nutrisi lengkap untuk mendukung pertumbuhan, perkembangan otak, serta kesehatan pencernaan.</p>
+          <ul>
+            <li><b>Bebelove 1</b>: untuk bayi usia 0–6 bulan</li>
+            <li><b>Bebelove 2</b>: untuk bayi usia 6–12 bulan (lanjutan, bisa dikombinasikan dengan MPASI)</li>
+            <li><b>Kandungan gizi</b>: protein, vitamin & mineral, zat besi, kalsium, omega 3 & 6, prebiotik FOS & GOS</li>
+            <li><b>Manfaat</b>: mendukung pertumbuhan fisik, perkembangan otak, daya tahan tubuh, dan kesehatan pencernaan</li>
+            <li><b>Kemasan</b>: tersedia ukuran 200g, 400g, 800g</li>
+            <li><b>Saran</b>: ikuti aturan penyajian sesuai petunjuk di kemasan & gunakan di bawah pengawasan tenaga kesehatan</li>
+          </ul>
+`,
+        },
+        {
+          nama: "Lactogrow 3 1–3 Tahun 1kg",
+          harga: 175000,
+          gambar: "images/products/lactogrow-3-1kg.webp",
+          slug: "lactogrow-3-1-3-1kg",
+          shopee: "https://s.shopee.co.id/2qKWUCyOBJ",
+          cats: ["susu", "1-3", "bubuk"],
+          deskripsi: `
+            <p><b>Lactogrow 3</b> susu pertumbuhan untuk anak usia 1–3 tahun dengan Lactobacillus reuteri, serat pangan, serta nutrisi penting untuk mendukung tumbuh kembang optimal.</p>
+              <ul>
+                <li><b>Usia</b>: 1–3 tahun</li>
+                <li><b>Kandungan gizi</b>: L. reuteri (probiotik baik), minyak ikan, omega 3 & 6, 12 vitamin, 7 mineral, kalsium, zat besi</li>
+                <li><b>Fitur</b>: membantu kesehatan pencernaan, mendukung perkembangan otak & daya tahan tubuh</li>
+                <li><b>Varian rasa</b>: madu, vanilla, plain</li>
+                <li><b>Kemasan</b>: tersedia ukuran 350g, 750g, 1kg</li>
+                <li><b>Saran</b>: konsumsi 2 gelas per hari bersama pola makan bergizi seimbang</li>
+              </ul>
+`,
+        },
+        {
+          nama: "Dancow 3+ 1kg",
+          harga: 149000,
+          gambar: "images/products/dancow-3-1kg.webp",
+          slug: "dancow-3plus-800g",
+          shopee: "https://s.shopee.co.id/2qKWUCyOBJ",
+          cats: ["susu", "3plus", "bubuk"],
+          deskripsi: `
+            <p><b>Dancow 3+</b> susu pertumbuhan untuk anak usia 1–3 tahun yang diformulasikan dengan nutrisi penting untuk mendukung daya tahan tubuh, perkembangan otak, dan pertumbuhan fisik optimal.</p>
+              <ul>
+                <li><b>Usia</b>: 1–3 tahun</li>
+                <li><b>Kandungan gizi</b>: Lactobacillus Protectus (probiotik), omega 3 & 6, DHA, kalsium, zat besi, vitamin A, C, D, E, serta 12 vitamin & 7 mineral</li>
+                <li><b>Fitur</b>: membantu menjaga daya tahan tubuh, mendukung pertumbuhan tulang & gigi, serta perkembangan otak anak</li>
+                <li><b>Varian rasa</b>: madu, vanilla, cokelat</li>
+                <li><b>Kemasan</b>: tersedia ukuran 200g, 400g, 800g, 1kg</li>
+                <li><b>Saran</b>: sajikan 2 gelas per hari sebagai pelengkap makanan bergizi seimbang</li>
+              </ul>
+`,
+        },
+        {
+          nama: "SGM Soya 1+ 700g",
+          harga: 145000,
+          gambar: "images/products/sgm-soya-700.webp",
+          slug: "sgm-soya-1plus-700g",
+          shopee: "https://id.shp.ee/BhyMHhN",
+          cats: ["susu", "1-3", "soya", "bubuk"],
+          deskripsi: `
+            <p><b>SGM Soya 1+</b> susu pertumbuhan berbasis isolat protein kedelai untuk anak usia 1–3 tahun yang memiliki alergi protein susu sapi atau intoleransi laktosa.</p>
+              <ul>
+                <li><b>Usia</b>: 1–3 tahun</li>
+                <li><b>Kandungan gizi</b>: isolat protein kedelai, vitamin A, C, D, E, zat besi, kalsium, zinc, omega 3 & 6</li>
+                <li><b>Fitur</b>: 100% nabati, bebas laktosa, membantu mendukung pertumbuhan fisik & perkembangan otak</li>
+                <li><b>Varian rasa</b>: vanilla</li>
+                <li><b>Kemasan</b>: tersedia ukuran 150g, 400g, 600g</li>
+                <li><b>Saran</b>: konsumsi rutin 2 gelas per hari bersama pola makan seimbang, sesuai petunjuk penyajian di kemasan</li>
+              </ul>
+`,
+        },
+        {
+          nama: "Lactona 1+ 800gr",
+          harga: 26500,
+          gambar: "images/products/lactona-1.webp",
+          slug: "ultra-mimi-uht-125-6",
+          shopee: "https://s.shopee.co.id/3VaDOjxVt3",
+          cats: ["susu", "1plus"],
+          deskripsi: `
+            <p><b>Lactona 1+</b> susu pertumbuhan untuk anak usia 1–3 tahun dengan nutrisi lengkap guna mendukung tumbuh kembang optimal di masa golden age.</p>
+              <ul>
+                <li><b>Usia</b>: 1–3 tahun</li>
+                <li><b>Kandungan gizi</b>: protein, kalsium, vitamin A, C, D, E, zat besi, zinc, omega 3 & 6</li>
+                <li><b>Fitur</b>: membantu pertumbuhan tulang & gigi yang kuat, mendukung perkembangan otak & daya tahan tubuh</li>
+                <li><b>Varian rasa</b>: vanilla dan madu</li>
+                <li><b>Kemasan</b>: tersedia ukuran 350g, 750g, 1kg</li>
+                <li><b>Saran</b>: disajikan 2 kali sehari dengan air hangat sesuai takaran di kemasan, sebagai pelengkap pola makan sehat</li>
+              </ul>
+`,
+        },
+        {
+          nama: "Zee",
+          harga: 169000,
+          gambar: "images/products/zee.webp",
+          slug: "bebelac-3-800g",
+          shopee: "https://s.shopee.co.id/VwbqSGrwa",
+          cats: ["susu", "6plus", "bubuk"],
+          deskripsi: `
+            <p><b>Zee</b> susu pertumbuhan dengan nutrisi lengkap untuk anak sekolah, diformulasikan untuk mendukung tumbuh kembang, konsentrasi belajar, serta menjaga daya tahan tubuh.</p>
+              <ul>
+                <li><b>Usia</b>: biasanya untuk anak usia 3 tahun ke atas</li>
+                <li><b>Kandungan gizi</b>: ZEE Plus (protein, vitamin A, C, D, E, vitamin B kompleks, kalsium, zat besi, zinc), omega 3 & 6</li>
+                <li><b>Fitur</b>: mendukung pertumbuhan tinggi & kuat, menunjang konsentrasi belajar, membantu daya tahan tubuh</li>
+                <li><b>Varian rasa</b>: cokelat, vanilla, stroberi</li>
+                <li><b>Kemasan</b>: tersedia ukuran 200g, 350g, 750g, 1kg</li>
+                <li><b>Saran</b>: konsumsi 2 gelas per hari bersama pola makan seimbang & gaya hidup sehat</li>
+              </ul>
+`,
+        },
+        {
+          nama: "Dancow Forti Gro",
+          harga: 182000,
+          gambar: "images/products/forti-1kg.webp",
+          slug: "Dancow-forti-1kg",
+          shopee: "https://s.shopee.co.id/2LOG1N49RZ",
+          cats: ["susu", "6plus", "bubuk"],
+          deskripsi: `
+            <p><b>Dancow FortiGro</b> susu bubuk bernutrisi untuk anak usia sekolah dan remaja, diformulasikan dengan gizi lengkap untuk mendukung pertumbuhan, energi, dan konsentrasi belajar.</p>
+              <ul>
+                <li><b>Usia</b>: biasanya untuk anak 5 tahun ke atas</li>
+                <li><b>Kandungan gizi</b>: protein, kalsium tinggi, zat besi, vitamin A, C, D, E, vitamin B kompleks, omega 3 & 6</li>
+                <li><b>Fitur</b>: membantu mendukung kecerdasan, daya tahan tubuh, serta pertumbuhan tulang & gigi yang kuat</li>
+                <li><b>Varian rasa</b>: cokelat, vanilla, stroberi</li>
+                <li><b>Kemasan</b>: tersedia ukuran 200g, 400g, 800g, 1kg</li>
+                <li><b>Saran</b>: konsumsi rutin 2 kali sehari sebagai pelengkap nutrisi harian anak sekolah</li>
+              </ul>
+`,
+        },
+      ];
+      // =====================================================
+
+      const grid = document.getElementById("grid");
+      const chips = document.querySelectorAll("[data-filter]");
+      const q = document.getElementById("q");
+      const count = document.getElementById("count");
+
+      const money = (n) => "Rp " + Number(n).toLocaleString("id-ID");
+
+      // perbaiki: terima idx
+      function template(p, idx) {
+        return `
+<article class="card" data-category="${(p.cats || []).join(",")}">
+  <div class="thumb">
+    <img src="${p.gambar}" alt="${p.nama}">
+  </div>
+  <div class="title">${p.nama}</div>
+  <div class="price">${money(p.harga)}</div>
+  <div class="btns">
+    <!-- tombol lihat produk jadi trigger modal -->
+    <a href="#" class="btn btn-primary btn-detail" data-index="${idx}">Lihat Produk</a>
+    <!-- tombol Shopee tetap link normal -->
+    <a class="btn btn-market" href="${
+      p.shopee
+    }" target="_blank" rel="noopener">Shopee</a>
+  </div>
+</article>
+  `;
+      }
+      // render yang benar
+      function render(list) {
+        grid.innerHTML = list.map((p, i) => template(p, i)).join("");
+        count.textContent = `${list.length} produk`;
+
+        // handler modal
+        grid.querySelectorAll(".btn-detail").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const i = Number(btn.dataset.index);
+            if (typeof openModal === "function") openModal(list[i]);
+            else alert("Modal belum dipasang. Produk: " + list[i].nama);
+          });
+        });
+      }
+
+      function applyFilter(tag) {
+        const term = (q.value || "").toLowerCase();
+        const filtered = PRODUK.filter((p) => {
+          const inCat = tag === "semua" ? true : (p.cats || []).includes(tag);
+          const inText = term ? p.nama.toLowerCase().includes(term) : true;
+          const isDiapers = (p.cats || []).includes("susu");
+          return isDiapers && inCat && inText;
+        });
+        render(filtered);
+        history.replaceState(
+          null,
+          "",
+          `#cat=${encodeURIComponent(tag)}${
+            term ? `&q=${encodeURIComponent(term)}` : ""
+          }`
+        );
+      }
+
+      // events (biarkan seperti punya kamu)
+      chips.forEach((chip) => {
+        chip.addEventListener("click", () => {
+          chips.forEach((c) => c.classList.remove("is-active"));
+          chip.classList.add("is-active");
+          applyFilter(chip.dataset.filter);
+          window.scrollTo({
+            top: document.querySelector(".wrap").offsetTop,
+            behavior: "smooth",
+          });
+        });
+      });
+      q.addEventListener("input", () => {
+        const active =
+          document.querySelector(".chip.is-active")?.dataset.filter || "semua";
+        applyFilter(active);
+      });
+
+      // init
+      const params = new URLSearchParams(location.hash.replace("#", ""));
+      const initial = params.get("cat") || "semua";
+      (
+        Array.from(chips).find((c) => c.dataset.filter === initial) || chips[0]
+      ).classList.add("is-active");
+      render(PRODUK.filter((p) => (p.cats || []).includes("susu")));
+    </script>
+    <!-- Modal Detail Produk -->
+    <div
+      id="product-modal"
+      style="
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+      "
+    >
+      <div
+        id="modal-backdrop"
+        style="position: absolute; inset: 0; background: rgba(0, 0, 0, 0.5)"
+      ></div>
+      <div
+        role="dialog"
+        aria-modal="true"
+        style="
+          position: relative;
+          max-width: 780px;
+          width: 92%;
+          max-height: 88vh;
+          overflow: auto;
+          background: #fff;
+          border-radius: 16px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        "
+      >
+        <button
+          id="modal-close"
+          style="
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            border: 0;
+            background: #fff;
+            width: 38px;
+            height: 38px;
+            border-radius: 999px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+          "
+        >
+          ✕
+        </button>
+        <div
+          style="
+            display: grid;
+            gap: 18px;
+            grid-template-columns: 180px 1fr;
+            padding: 18px;
+          "
+        >
+          <div
+            style="
+              background: linear-gradient(180deg, #f5f9ff, #fff);
+              border-radius: 12px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 180px;
+              overflow: hidden;
+            "
+          >
+            <img
+              id="modal-img"
+              alt=""
+              style="width: 100%; height: 100%; object-fit: contain"
+            />
+          </div>
+          <div>
+            <h3
+              id="modal-title"
+              style="margin: 0 0 6px; font-size: 20px; font-weight: 800"
+            ></h3>
+            <div
+              id="modal-price"
+              style="color: #e91e63; font-weight: 800; margin-bottom: 10px"
+            ></div>
+            <div id="modal-desc" style="line-height: 1.6"></div>
+            <div
+              style="
+                display: flex;
+                gap: 10px;
+                margin-top: 14px;
+                flex-wrap: wrap;
+              "
+            >
+              <a
+                id="modal-shopee"
+                target="_blank"
+                rel="noopener"
+                style="
+                  background: #ec1971;
+                  color: #fff;
+                  font-weight: 800;
+                  padding: 10px 14px;
+                  border-radius: 12px;
+                  text-decoration: none;
+                "
+                >Beli di Shopee</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ===== Modal logic =====
+      const __modal = document.getElementById("product-modal");
+      const __close = document.getElementById("modal-close");
+      const __backdrop = document.getElementById("modal-backdrop");
+
+      function openModal(p) {
+        document.getElementById("modal-img").src = p.gambar;
+        document.getElementById("modal-img").alt = p.nama;
+        document.getElementById("modal-title").textContent = p.nama;
+        document.getElementById("modal-price").textContent =
+          "Rp " + Number(p.harga).toLocaleString("id-ID");
+        document.getElementById("modal-desc").innerHTML =
+          p.deskripsi || "<p>Belum ada deskripsi.</p>";
+        document.getElementById("modal-shopee").href = p.shopee || "#";
+
+        __modal.style.display = "flex";
+        document.body.style.overflow = "hidden";
+      }
+      function closeModal() {
+        __modal.style.display = "none";
+        document.body.style.overflow = "";
+      }
+      __close.addEventListener("click", closeModal);
+      __backdrop.addEventListener("click", closeModal);
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeModal();
+      });
+    </script>
+  </body>
+</html>
